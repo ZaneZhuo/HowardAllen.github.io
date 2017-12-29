@@ -181,7 +181,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Startseite
+            Home
           </a>
         </li>
       
@@ -191,7 +191,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archiv
+            Archives
           </a>
         </li>
       
@@ -257,7 +257,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-28T00:00:00+08:00">
                 2017-12-28
@@ -299,17 +299,10 @@
       
         
           
-            <h1 id="word2vec"><a href="#word2vec" class="headerlink" title="word2vec"></a>word2vec</h1><h3 id="为什么要用这个"><a href="#为什么要用这个" class="headerlink" title="为什么要用这个?"></a>为什么要用这个?</h3><p>因为看论文和博客的时候很常见,不论是干嘛的,既然这么火,不妨试试.</p>
-<h3 id="如何安装"><a href="#如何安装" class="headerlink" title="如何安装"></a>如何安装</h3><ol>
-<li>从网上爬数据下来</li>
-<li>对数据进行过滤、分词</li>
-<li>用word2vec进行近义词查找等操作</li>
-</ol>
-<h3 id="完整的工程传到了我的github上了-https-github-com-n2meetu-word2vec-git"><a href="#完整的工程传到了我的github上了-https-github-com-n2meetu-word2vec-git" class="headerlink" title="完整的工程传到了我的github上了:https://github.com/n2meetu/word2vec.git"></a>完整的工程传到了我的github上了:<a href="https://github.com/n2meetu/word2vec.git" target="_blank" rel="noopener">https://github.com/n2meetu/word2vec.git</a></h3><h3 id="运行结果："><a href="#运行结果：" class="headerlink" title="运行结果："></a>运行结果：</h3><p><img src="https://ws4.sinaimg.cn/large/006tNc79gy1fmv2306worj30e40a6dfz.jpg" alt=""></p>
-<h3 id="需要安装的包，可以用pycharm的preference："><a href="#需要安装的包，可以用pycharm的preference：" class="headerlink" title="需要安装的包，可以用pycharm的preference："></a>需要安装的包，可以用pycharm的preference：</h3><p><img src="https://ws4.sinaimg.cn/large/006tNc79gy1fmv25jovkkj31kw11b768.jpg" alt=""><br>点「+」加号<br><img src="https://ws4.sinaimg.cn/large/006tNc79gy1fmv25ou5awj311y164aap.jpg" alt=""><br>同样，点「+」加号。过一会儿会提示你安装是否成功的。</p>
-<h3 id="整个的文件结构："><a href="#整个的文件结构：" class="headerlink" title="整个的文件结构："></a>整个的文件结构：</h3><p><img src="https://ws1.sinaimg.cn/large/006tNc79gy1fmv2bpwb42j30mg07ojrd.jpg" alt=""><br>-语料（网上爬下来的）<br>-自定义词典<br>-主要的python文件</p>
-<h3 id="主要的py文件："><a href="#主要的py文件：" class="headerlink" title="主要的py文件："></a>主要的py文件：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding: utf-8-*-</span><br><span class="line">import jieba</span><br><span class="line">from gensim.models import word2vec</span><br><span class="line"></span><br><span class="line">#  去掉中英文状态下的逗号、句号</span><br><span class="line">def clearSen(comment):</span><br><span class="line">    comment = comment.strip(&apos; &apos;)</span><br><span class="line">    comment = comment.replace(&apos;、&apos;,&apos;&apos;)</span><br><span class="line">    comment = comment.replace(&apos;~&apos;,&apos;。&apos;)</span><br><span class="line">    comment = comment.replace(&apos;～&apos;,&apos;&apos;)</span><br><span class="line">    comment = comment.replace(&apos;&#123;&quot;error_message&quot;: &quot;EMPTY SENTENCE&quot;&#125;&apos;,&apos;&apos;)</span><br><span class="line">    comment = comment.replace(&apos;…&apos;,&apos;&apos;)</span><br><span class="line">    comment = comment.replace(&apos;\r&apos;, &apos;&apos;)</span><br><span class="line">    comment = comment.replace(&apos;\t&apos;, &apos; &apos;)</span><br><span class="line">    comment = comment.replace(&apos;\f&apos;, &apos; &apos;)</span><br><span class="line">    comment = comment.replace(&apos;/&apos;, &apos;&apos;)</span><br><span class="line">    comment = comment.replace(&apos;、&apos;, &apos; &apos;)</span><br><span class="line">    comment = comment.replace(&apos;/&apos;, &apos;&apos;)</span><br><span class="line">    comment = comment.replace(&apos; &apos;, &apos;&apos;)</span><br><span class="line">    comment = comment.replace(&apos; &apos;, &apos;&apos;)</span><br><span class="line">    comment = comment.replace(&apos;_&apos;, &apos;&apos;)</span><br><span class="line">    comment = comment.replace(&apos;?&apos;, &apos; &apos;)</span><br><span class="line">    comment = comment.replace(&apos;？&apos;, &apos; &apos;)</span><br><span class="line">    comment = comment.replace(&apos;了&apos;, &apos;&apos;)</span><br><span class="line">    comment = comment.replace(&apos;➕&apos;, &apos;&apos;)</span><br><span class="line">    return comment</span><br><span class="line"></span><br><span class="line"># 用jieba进行分词</span><br><span class="line">comment = open(&apos;./corpus/comment.txt&apos;).read()</span><br><span class="line">comment = clearSen(comment)</span><br><span class="line">jieba.load_userdict(&apos;./user_dict/userdict_food.txt&apos;)</span><br><span class="line">comment = &apos; &apos;.join(jieba.cut(comment))</span><br><span class="line"></span><br><span class="line"># 分完词后保存到新的txt中</span><br><span class="line">fo = open(&quot;./corpus/afterSeg.txt&quot;,&quot;w&quot;)</span><br><span class="line">fo.write(comment)</span><br><span class="line">print(&quot;finished!&quot;)</span><br><span class="line">fo.close()</span><br><span class="line"></span><br><span class="line"># 用 word2vec 进行训练</span><br><span class="line">sentences=word2vec.Text8Corpus(u&apos;./corpus/afterSeg.txt&apos;)</span><br><span class="line"># 第一个参数是训练语料，第二个参数是小于该数的单词会被剔除，默认值为5, 第三个参数是神经网络的隐藏层单元数，默认为100</span><br><span class="line">model=word2vec.Word2Vec(sentences,min_count=3, size=50, window=5, workers=4)</span><br><span class="line"></span><br><span class="line">y2=model.similarity(u&quot;不错&quot;, u&quot;好吃&quot;) #计算两个词之间的余弦距离</span><br><span class="line">print(y2)</span><br><span class="line"></span><br><span class="line">for i in model.most_similar(u&quot;好吃&quot;): #计算余弦距离最接近“滋润”的10个词</span><br><span class="line">    print(i[0],i[1])</span><br><span class="line"></span><br><span class="line"># 训练词向量时传入的两个参数也对训练效果有很大影响，需要根据语料来决定参数的选择，好的词向量对NLP的分类、聚类、相似度判别等任务有重要意义</span><br></pre></td></tr></table></figure>
-<h4 id="清洗数据的clearSen-不要笑。萌新就是这样很傻很粗暴的……"><a href="#清洗数据的clearSen-不要笑。萌新就是这样很傻很粗暴的……" class="headerlink" title="清洗数据的clearSen()不要笑。萌新就是这样很傻很粗暴的……"></a>清洗数据的clearSen()不要笑。萌新就是这样很傻很粗暴的……</h4>
+            <p>##标题</p>
+<p>###子标题<br>那个拉勾网i阿狗结构i文化高i侯IE阿姐鼓哦啊我觉哦感觉我i啊结构i哦i啊g那个拉勾网i阿狗结构i文化高i侯IE阿姐鼓哦啊我觉哦感觉我i啊结构i哦i啊g那个拉勾网i阿狗结构i文化高i侯IE阿姐鼓哦啊我觉哦感觉我i啊结构i哦i啊g那个拉勾网i阿狗结构i文化高i侯IE阿姐鼓哦啊我觉哦感觉我i啊结构i哦i啊g那个拉勾网i阿狗结构i文化高i侯IE阿姐鼓哦啊我觉哦感觉我i啊结构i哦i啊g那个拉勾网i阿狗结构i文化高i侯IE阿姐鼓哦啊我觉哦感觉我i啊结构i哦i啊g那个拉勾网i阿狗结构i文化高i侯IE阿姐鼓哦啊我觉哦感觉我i啊结构i哦i啊g那个拉勾网i阿狗结构i文化高i侯IE阿姐鼓哦啊我觉哦感觉我i啊结构i哦i啊g那个拉勾网i阿狗结构i文化高i侯IE阿姐鼓哦啊我觉哦感觉我i啊结构i哦i啊g</p>
+<p><img src="https://ws4.sinaimg.cn/large/006tKfTcgy1fmxpsq7yx4j30fa0bpaao.jpg" alt=""></p>
+<h4 id="电话：19866663848"><a href="#电话：19866663848" class="headerlink" title="电话：19866663848"></a>电话：19866663848</h4><h4 id="联系人-店长"><a href="#联系人-店长" class="headerlink" title="联系人:店长"></a>联系人:店长</h4><h4 id="淘宝：1111111"><a href="#淘宝：1111111" class="headerlink" title="淘宝：1111111"></a>淘宝：1111111</h4><h4 id="微信：此处是二维码图片"><a href="#微信：此处是二维码图片" class="headerlink" title="微信：此处是二维码图片"></a>微信：此处是二维码图片</h4>
           
         
       
@@ -386,7 +379,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-28T00:00:00+08:00">
                 2017-12-28
@@ -510,7 +503,7 @@
                 <a href="/archives/">
               
                   <span class="site-state-item-count">2</span>
-                  <span class="site-state-item-name">Artikel</span>
+                  <span class="site-state-item-name">posts</span>
                 </a>
               </div>
             
@@ -562,7 +555,7 @@
 </div>
 
 
-  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
 
 
 
